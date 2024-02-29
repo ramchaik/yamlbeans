@@ -1,9 +1,5 @@
 package com.esotericsoftware.yamlbeans;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +16,8 @@ import org.junit.Test;
 import com.esotericsoftware.yamlbeans.YamlConfig.Quote;
 import com.esotericsoftware.yamlbeans.YamlReader.YamlReaderException;
 import com.esotericsoftware.yamlbeans.scalar.DateSerializer;
+
+import static org.junit.Assert.*;
 
 @SuppressWarnings("synthetic-access")
 public class YamlConfigTest {
@@ -81,6 +79,50 @@ public class YamlConfigTest {
 			assertEquals("serializer cannot be null.", e.getMessage());
 		}
 	}
+
+	@Test
+	public void testSetScalarSerializerWithTimeInMilliseconds() throws YamlException {
+		// Arrange
+		TimeZone timeZone = TimeZone.getTimeZone("GMT+0");
+		TimeZone.setDefault(timeZone);
+
+		long TIME_IN_MILLISECONDS = 1593494400000L;
+
+		// Act
+		yamlConfig.setScalarSerializer(Date.class, new DateSerializer());
+		String yaml = "!java.util.Date " + TIME_IN_MILLISECONDS;
+
+		YamlReader yamlReader = new YamlReader(yaml, yamlConfig);
+		Object object = yamlReader.read();
+
+		// Assert
+		assertEquals(Date.class, object.getClass());
+		assertEquals(TIME_IN_MILLISECONDS, ((Date) object).getTime());
+	}
+
+  @Test
+  public void testSetScalarSerializerWithInvalidDateShouldThrowException() throws YamlException {
+    // Arrange
+    TimeZone timeZone = TimeZone.getTimeZone("GMT+0");
+    TimeZone.setDefault(timeZone);
+
+    String INVALID_VALUE = "INVALID_DATE_VALUE";
+
+    Throwable exception =
+        assertThrows(
+            YamlException.class,
+            () -> {
+              // Act
+              yamlConfig.setScalarSerializer(Date.class, new DateSerializer());
+              String yaml = "!java.util.Date " + INVALID_VALUE;
+
+              YamlReader yamlReader = new YamlReader(yaml, yamlConfig);
+              Object object = yamlReader.read();
+            });
+
+    // Assert
+    assertEquals("Invalid date: " + INVALID_VALUE, exception.getMessage());
+  }
 
 	@Test
 	public void testSetPropertyElementType() throws YamlException {

@@ -32,6 +32,50 @@ public class YamlSequenceTest {
 	}
 
 	@Test
+	public void testToStringForYamlScalarWithAnchor() {
+		// Arrange
+		YamlElement yamlElement = new YamlScalar("test_value");
+		// set the anchor
+		yamlElement.setAnchor("test_anchor");
+
+		// Act
+		String actual = yamlElement.toString();
+
+		// Assert
+		assertEquals("&test_anchor test_value", actual);
+	}
+
+	@Test
+	public void testToStringForYamlScalarWithTag() {
+		// Arrange
+		YamlElement yamlElement = new YamlScalar("test_value");
+		// set the anchor
+		yamlElement.setTag("test_tag");
+
+		// Act
+		String actual = yamlElement.toString();
+
+		// Assert
+		assertEquals("test_value !test_tag", actual);
+	}
+
+	@Test
+	public void testToStringForYamlScalarWithTagAndAnchor() {
+		// Arrange
+		YamlElement yamlElement = new YamlScalar("test_value");
+		// set the anchor
+		yamlElement.setAnchor("test_anchor");
+		// set the tag
+		yamlElement.setTag("test_tag");
+
+		// Act
+		String actual = yamlElement.toString();
+
+		// Assert
+		assertEquals("&test_anchor test_value !test_tag", actual);
+	}
+
+	@Test
 	public void testDeleteElement() throws YamlException {
 		yamlSequence.deleteElement(0);
 		assertEquals(2, yamlSequence.size());
