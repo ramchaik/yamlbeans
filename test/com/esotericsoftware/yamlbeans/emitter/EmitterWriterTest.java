@@ -48,6 +48,23 @@ public class EmitterWriterTest {
 	}
 
 	@Test
+	public void testWriteUnquoted() throws YamlException {
+		// Arrange
+		YamlConfig yamlConfig = new YamlConfig();
+		StringWriter stringWriter = new StringWriter();
+
+		yamlConfig.writeConfig.setQuoteChar(Quote.NONE);
+
+		// Act
+		YamlWriter yamlWriter = new YamlWriter(stringWriter, yamlConfig);
+		yamlWriter.write("test");
+		yamlWriter.close();
+
+		// Assert
+		assertEquals("test" + LINE_SEPARATOR, stringWriter.toString());
+	}
+
+	@Test
 	public void testWriteFolded() throws YamlException {
 		YamlConfig yamlConfig = new YamlConfig();
 		yamlConfig.writeConfig.setQuoteChar(Quote.FOLDED);

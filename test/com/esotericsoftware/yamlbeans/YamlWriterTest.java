@@ -210,6 +210,18 @@ public class YamlWriterTest extends TestCase {
 		roundTrip(test);
 	}
 
+	public void testDoubleQuotes () throws Exception {
+		// Arrange
+		Test test = new Test();
+		test.stringValue = "" + //
+			"if (chr != \" \" && chr != \"t\" && chr != \"r\"\n" + //
+			"\t&& chr != \"n\") {\n" + //
+			"\tbreak\n" + //
+			"\t}\n";
+		// Act & Assert
+		roundTrip(test);
+	}
+
 	public void testExplicitDocumentEnd () throws Exception {
 		YamlConfig config = new YamlConfig();
 		config.writeConfig.explicitEndDocument = true;

@@ -44,6 +44,34 @@ public class SafeYamlConfigTest {
 		assertNull(dataMap.get("best friend"));
 	}
 
+	@Test
+	public void testSetClassTags () {
+		// Arrange
+		SafeYamlConfig.SafeReadConfig config = new SafeYamlConfig.SafeReadConfig();
+		try {
+			// Act
+			config.setClassTags(true);
+			fail();
+		} catch (IllegalArgumentException e) {
+			// Assert
+			assertEquals("Class Tags cannot be enabled in SafeYamlConfig.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testSetAnchors () {
+		// Arrange
+		SafeYamlConfig.SafeReadConfig config = new SafeYamlConfig.SafeReadConfig();
+		try {
+			// Act
+			config.setAnchors(true);
+			fail();
+		} catch (IllegalArgumentException e) {
+			// Assert
+			assertEquals("Anchors cannot be enabled in SafeYamlConfig.", e.getMessage());
+		}
+	}
+
 	static class TestObject {
 		private String a;
 		public int age;

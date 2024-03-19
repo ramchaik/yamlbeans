@@ -133,4 +133,20 @@ public class YamlMappingTest {
 		YamlElement YamlElement = new YamlScalar();
 		yamlMapping.addElement(YamlElement);
 	}
+
+	@Test
+	public void testToStringWithAnchor() {
+		// Arrange
+		yamlMapping.setAnchor("anchor");
+		// Act & Assert
+		assertEquals("&anchor  !HashMap{key1:value1,key2:value2,key3:value3}", yamlMapping.toString());
+	}
+
+	@Test
+	public void testToStringWithTag() {
+		// Arrange
+		yamlMapping.setTag("tag");
+		// Act & Assert
+		assertEquals("&mapping  !tag{key1:value1,key2:value2,key3:value3}", yamlMapping.toString());
+	}
 }
