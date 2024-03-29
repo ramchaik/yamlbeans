@@ -42,18 +42,6 @@ public class BeansTest {
 	}
 
 	@Test
-	public void getDeferredConstruction () throws Exception {
-		DeferredConstruction construction = Beans.getDeferredConstruction(MockClass.class, yamlConfig);
-		assertEquals(null, construction);
-	}
-
-	@Test
-	public void getDeferredConstructionWithPrivateConstructor () throws Exception {
-		DeferredConstruction construction = Beans.getDeferredConstruction(MockClassWithPrivateConstructor.class, yamlConfig);
-		assertEquals(null, construction);
-	}
-
-	@Test
 	public void createObject () throws Exception {
 		MockClass mockClass = (MockClass)Beans.createObject(MockClass.class, false);
 		MockClassWithPrivateConstructor mockClassWithPrivateConstructor = (MockClassWithPrivateConstructor)Beans

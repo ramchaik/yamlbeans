@@ -16,6 +16,7 @@
 
 package com.esotericsoftware.yamlbeans;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -350,4 +351,21 @@ public class YamlConfig {
 			return c;
 		}
 	}
+
+	public DeferredConstruction getDeferredConstruction (Class type) {
+		ConstructorParameters parameters = this.readConfig.constructorParameters.get(type);
+		if (parameters != null) return new DeferredConstruction(parameters.constructor, parameters.parameterNames);
+		try {
+			Class constructorProperties = Class.forName("java.beans.ConstructorProperties");
+			for (Constructor typeConstructor : type.getConstructors()) {
+				Annotation annotation = typeConstructor.getAnnotation(constructorProperties);
+				if (annotation == null) continue;
+				String[] parameterNames = (String[])constructorProperties.getMethod("value").invoke(annotation, (Object[])null);
+				return new DeferredConstruction(typeConstructor, parameterNames);
+			}
+		} catch (Exception ignored) {
+		}
+		return null;
+	}
+
 }

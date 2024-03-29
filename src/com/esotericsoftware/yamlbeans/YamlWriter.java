@@ -256,7 +256,7 @@ public class YamlWriter implements AutoCloseable {
 		Object prototype = null;
 		if (!config.writeConfig.writeDefaultValues && valueClass != Class.class) {
 			prototype = defaultValuePrototypes.get(valueClass);
-			if (prototype == null && Beans.getDeferredConstruction(valueClass, config) == null) {
+			if (prototype == null && config.getDeferredConstruction(valueClass) == null) {
 				try {
 					prototype = Beans.createObject(valueClass, config.privateConstructors);
 				} catch (InvocationTargetException ex) {

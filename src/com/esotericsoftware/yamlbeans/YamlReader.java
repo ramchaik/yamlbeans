@@ -488,7 +488,7 @@ public class YamlReader implements AutoCloseable {
 	/** Returns a new object of the requested type. */
 	protected Object createObject (Class type) throws InvocationTargetException {
 		// Use deferred construction if a non-zero-arg constructor is available.
-		DeferredConstruction deferredConstruction = Beans.getDeferredConstruction(type, config);
+		DeferredConstruction deferredConstruction = config.getDeferredConstruction(type);
 		if (deferredConstruction != null) return deferredConstruction;
 		return Beans.createObject(type, config.privateConstructors);
 	}

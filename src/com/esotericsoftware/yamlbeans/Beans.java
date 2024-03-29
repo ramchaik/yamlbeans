@@ -36,8 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.esotericsoftware.yamlbeans.YamlConfig.ConstructorParameters;
-
 /** Utility for dealing with beans and public fields.
  * @author <a href="mailto:misc@n4te.com">Nathan Sweet</a> */
 class Beans {
@@ -47,22 +45,6 @@ class Beans {
 	static public boolean isScalar (Class c) {
 		return c.isPrimitive() || c == String.class || c == Integer.class || c == Boolean.class || c == Float.class
 			|| c == Long.class || c == Double.class || c == Short.class || c == Byte.class || c == Character.class;
-	}
-
-	static public DeferredConstruction getDeferredConstruction (Class type, YamlConfig config) {
-		ConstructorParameters parameters = config.readConfig.constructorParameters.get(type);
-		if (parameters != null) return new DeferredConstruction(parameters.constructor, parameters.parameterNames);
-		try {
-			Class constructorProperties = Class.forName("java.beans.ConstructorProperties");
-			for (Constructor typeConstructor : type.getConstructors()) {
-				Annotation annotation = typeConstructor.getAnnotation(constructorProperties);
-				if (annotation == null) continue;
-				String[] parameterNames = (String[])constructorProperties.getMethod("value").invoke(annotation, (Object[])null);
-				return new DeferredConstruction(typeConstructor, parameterNames);
-			}
-		} catch (Exception ignored) {
-		}
-		return null;
 	}
 
 	static public Object createObject (Class type, boolean privateConstructors) throws InvocationTargetException {
@@ -151,7 +133,7 @@ class Beans {
 		Property property = null;
 		if (beanProperties) {
 			String name = field.getName();
-			DeferredConstruction deferredConstruction = getDeferredConstruction(type, config);
+			DeferredConstruction deferredConstruction = config.getDeferredConstruction(type);
 			boolean constructorProperty = deferredConstruction != null && deferredConstruction.hasParameter(name);
 
 			String nameUpper = Character.toUpperCase(name.charAt(0)) + name.substring(1);

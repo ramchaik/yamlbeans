@@ -674,4 +674,194 @@ public class YamlConfigTest {
 			this.a = a;
 		}
 	}
+
+	@Test
+	public void getDeferredConstruction () throws Exception {
+		DeferredConstruction construction = yamlConfig.getDeferredConstruction(YamlConfigTest.MockClass.class);
+		assertEquals(null, construction);
+	}
+
+	@Test
+	public void getDeferredConstructionWithPrivateConstructor () throws Exception {
+		DeferredConstruction construction = yamlConfig.getDeferredConstruction(YamlConfigTest.MockClassWithPrivateConstructor.class);
+		assertEquals(null, construction);
+	}
+
+	private static class MockClass {
+
+		private boolean booleanType;
+		private char charType;
+		private byte byteType;
+		private short shortType;
+		private int intType;
+		private long longType;
+		private float floatType;
+		private double doubleType;
+		private String stringType;
+
+		public MockClass () {
+
+		}
+
+		public boolean isBooleanType () {
+			return booleanType;
+		}
+
+		public void setBooleanType (boolean booleanType) {
+			this.booleanType = booleanType;
+		}
+
+		public char getCharType () {
+			return charType;
+		}
+
+		public void setCharType (char charType) {
+			this.charType = charType;
+		}
+
+		public byte getByteType () {
+			return byteType;
+		}
+
+		public void setByteType (byte byteType) {
+			this.byteType = byteType;
+		}
+
+		public short getShortType () {
+			return shortType;
+		}
+
+		public void setShortType (short shortType) {
+			this.shortType = shortType;
+		}
+
+		public int getIntType () {
+			return intType;
+		}
+
+		public void setIntType (int intType) {
+			this.intType = intType;
+		}
+
+		public long getLongType () {
+			return longType;
+		}
+
+		public void setLongType (long longType) {
+			this.longType = longType;
+		}
+
+		public float getFloatType () {
+			return floatType;
+		}
+
+		public void setFloatType (float floatType) {
+			this.floatType = floatType;
+		}
+
+		public double getDoubleType () {
+			return doubleType;
+		}
+
+		public void setDoubleType (double doubleType) {
+			this.doubleType = doubleType;
+		}
+
+		public String getStringType () {
+			return stringType;
+		}
+
+		public void setStringType (String stringType) {
+			this.stringType = stringType;
+		}
+	}
+
+	private static class MockClassWithPrivateConstructor {
+
+		private boolean booleanType;
+		private char charType;
+		private byte byteType;
+		private short shortType;
+		private int intType;
+		private long longType;
+		private float floatType;
+		private double doubleType;
+		private String stringType;
+
+		private MockClassWithPrivateConstructor () {
+
+		}
+
+		public boolean isBooleanType () {
+			return booleanType;
+		}
+
+		public void setBooleanType (boolean booleanType) {
+			this.booleanType = booleanType;
+		}
+
+		public char getCharType () {
+			return charType;
+		}
+
+		public void setCharType (char charType) {
+			this.charType = charType;
+		}
+
+		public byte getByteType () {
+			return byteType;
+		}
+
+		public void setByteType (byte byteType) {
+			this.byteType = byteType;
+		}
+
+		public short getShortType () {
+			return shortType;
+		}
+
+		public void setShortType (short shortType) {
+			this.shortType = shortType;
+		}
+
+		public int getIntType () {
+			return intType;
+		}
+
+		public void setIntType (int intType) {
+			this.intType = intType;
+		}
+
+		public long getLongType () {
+			return longType;
+		}
+
+		public void setLongType (long longType) {
+			this.longType = longType;
+		}
+
+		public float getFloatType () {
+			return floatType;
+		}
+
+		public void setFloatType (float floatType) {
+			this.floatType = floatType;
+		}
+
+		public double getDoubleType () {
+			return doubleType;
+		}
+
+		public void setDoubleType (double doubleType) {
+			this.doubleType = doubleType;
+		}
+
+		public String getStringType () {
+			return stringType;
+		}
+
+		public void setStringType (String stringType) {
+			this.stringType = stringType;
+		}
+	}
 }
